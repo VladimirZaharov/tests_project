@@ -1,0 +1,49 @@
+{% extends 'tests/base.html' %}
+{% load static %}
+{% block css %}
+<link href="{% static 'css/categories.css'%}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+<!-- Page Content -->
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-lg-3">
+
+            <h1 class="my-4">Тестирование</h1>
+            <div class="list-group">
+                {% for category in categories %}
+                <a href="{% url 'tests:category' category.id %}" class="list-group-item">{{ category.name }}</a>
+                {% endfor %}
+            </div>
+
+        </div>
+        <!-- /.col-lg-3 -->
+
+        <div class="col-lg-9">
+
+
+
+            <div class="list-group">
+                {% for test in tests %}
+                <a href="{% url 'tests:testing' test.id %}" class="list-group-item">{{ test.name }}</a>
+                {% endfor %}
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- /.container -->
+
+<!-- Footer -->
+<footer class="py-5 bg-dark">
+    <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; Тестирование 2022</p>
+    </div>
+    <!-- /.container -->
+</footer>
+
+{% endblock %}

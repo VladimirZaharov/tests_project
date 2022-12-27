@@ -1,0 +1,57 @@
+{% extends 'users/base.html' %}
+
+{% block content %}
+{% load static %}
+
+
+<main class="form-signin w-100 m-auto">
+    {% if form.errors %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert"
+         style="margin-top: 50px;">
+        {{ form.errors }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endif %}
+    <form action="{% url 'users:registration' %}" method="post">
+        {% csrf_token %}
+
+        <img class="mb-4" src="{% static 'assets/brand/bootstrap-logo.svg' %}" alt="" width="72" height="57">
+        <h1 class="h3 mb-3 fw-normal">Регистрация</h1>
+
+        <div class="form-floating">
+            {{ form.first_name }}
+            <label for="{{ form.first_name.id_for_label }}">Имя</label>
+        </div>
+        <div class="form-floating">
+            {{ form.last_name }}
+            <label for="{{ form.last_name.id_for_label }}">Фамилия</label>
+        </div>
+        <div class="form-floating">
+            {{ form.username }}
+            <label for="{{ form.username.id_for_label }}">Имя пользователя</label>
+        </div>
+        <div class="form-floating">
+            {{ form.email }}
+            <label for="{{ form.email.id_for_label }}">Адрес электронной
+                почты</label>
+        </div>
+        <div class="form-floating">
+            {{ form.password1 }}
+            <label for="{{ form.password1.id_for_label }}">Пароль</label>
+        </div>
+        <div class="form-floating">
+            {{ form.password2 }}
+            <label for="{{ form.password2.id_for_label }}">Подтверждение
+                пароля</label>
+        </div>
+
+
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Войти</button>
+        <p class="mt-5 mb-3 text-muted">&copy; 2022</p>
+    </form>
+</main>
+
+
+{% endblock %}

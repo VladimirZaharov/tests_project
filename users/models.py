@@ -5,10 +5,10 @@ from tests.models import Test
 
 
 class User(AbstractUser):
-    pass
+    current_test = models.JSONField(blank=True, null=True)
 
 
 class UserStatistic(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    test = models.ForeignKey(Test, on_delete=models.SET_NULL)
+    test = models.ForeignKey(Test, on_delete=models.SET_NULL, null=True)
     result = models.IntegerField(default=0)
