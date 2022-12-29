@@ -3,6 +3,7 @@ from django.shortcuts import render
 
 from tests.models import TestCategory, Test
 from users.models import User, UserStatistic
+from tests.utils import start_testing, check_answer, ask_question, end_test_and_show_result
 
 
 def index(request):
@@ -28,11 +29,17 @@ def statistic(request):
 
 @login_required(login_url='tests:index')
 def run(request, test_id=None):
-    user = User.objects.filter(username=request.user).first()
+    user = User.objects.get(username=request.user)
     if user.current_test:
-        return render(request, 'tests/testing.html')
+        if request.method == "POST":
+            context = check_answer(request, user)
+            return render(request, 'tests/result.html', context)
+        context = ask_question(user)
+        if context:
+            return render(request, 'tests/testing.html', context)
+        context = end_test_and_show_result(user)
+        return render(request, 'tests/result.html', context)
     else:
-        if test_id:
-            return render(request, 'tests/testing.html')
-        else:
-            return render(request, 'tests/testing.html')
+        context = start_testing(request, test_id)
+        return render(request, 'tests/testing.html', context)
+  
