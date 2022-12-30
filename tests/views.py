@@ -23,7 +23,7 @@ def categories(request, category_id=None):
 def statistic(request):
     user = request.user
     statistics = UserStatistic.objects.filter(user=user.id)
-    context = {'statistics': statistics}
+    context = {'tests': statistics}
     return render(request, 'users/statistic.html', context)
 
 
@@ -40,6 +40,8 @@ def run(request, test_id=None):
         context = end_test_and_show_result(user)
         return render(request, 'tests/result.html', context)
     else:
-        context = start_testing(request, test_id)
-        return render(request, 'tests/testing.html', context)
-  
+        # try:
+            context = start_testing(request, test_id)
+            return render(request, 'tests/testing.html', context)
+        # except Exception as e:
+        #     return render(request, 'tests/index.html')

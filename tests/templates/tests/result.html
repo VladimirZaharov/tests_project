@@ -59,6 +59,8 @@
 
 
 
+
+
 </style>
 <link href="{% static 'css/checkout.css' %}" rel="stylesheet">
 
@@ -76,56 +78,26 @@
         </div>
 
         <div class="col-md-7 col-lg-8">
-            <h4 class="mb-3">{{ question.question_name}}</h4>
-            <form action="{% url 'tests:testing' 1 %}" method="post">
-                {% csrf_token %}
+            <h4 class="mb-3">{{ message }}</h4>
 
-                <hr class="my-4">
-                {% if question.answers.0 %}
-                <div class="form-check">
-                    {{ form.answer_one }}
-                    <label class="form-check-label" for="answer_one">{{ question.answers.0.answer }}</label>
-                </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                {% if statistic %}
+                <button id="start-purchase-btn" type="button" class="btn btn-lg">
+                    <a id="start-purchase-link" href="{% url 'index' %}">
+                        Вернуться на главную
+                    </a>
+                </button>
+
+                {% else %}
+                <button id="start-purchase-btn" type="button" class="btn btn-lg">
+                    <a id="start-purchase-link" href="{% url 'tests:testing' 1 %}">
+                        Продолжить
+                    </a>
+                </button>
                 {% endif %}
-
-                {% if question.answers.1 %}
-                <div class="form-check">
-                    {{ form.answer_two }}
-                    <label class="form-check-label" for="answer_two">{{ question.answers.1.answer }}</label>
-                </div>
-                {% endif %}
-
-                {% if question.answers.2 %}
-                <div class="form-check">
-                    {{ form.answer_three }}
-                    <label class="form-check-label" for="answer_three">{{ question.answers.2.answer }}</label>
-                </div>
-                {% endif %}
-
-                {% if question.answers.3 %}
-                <div class="form-check">
-                    {{ form.answer_four }}
-                    <label class="form-check-label" for="answer_four">{{ question.answers.3.answer }}</label>
-                </div>
-                {% endif %}
-
-                {% if question.answers.4 %}
-                <div class="form-check">
-                    {{ form.answer_five }}
-                    <label class="form-check-label" for="answer_five">{{ question.answers.4.answer }}</label>
-                </div>
-                {% endif %}
-
-                {% if question.answers.5 %}
-                <div class="form-check">
-                    {{ form.answer_six }}
-                    <label class="form-check-label" for="answer_six">{{ question.answers.5.answer }}</label>
-                </div>
-                {% endif %}
-
-
-                <button class="w-100 btn btn-primary btn-lg" type="submit">Ответить</button>
-            </form>
+            </div>
         </div>
     </main>
 
