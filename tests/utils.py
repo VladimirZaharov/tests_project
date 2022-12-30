@@ -71,35 +71,34 @@ def check_answer(request, user_obj) -> dict:
     right_answers.sort()
     form = TestForm(request.POST)
     if form.is_valid():
-        print(form.cleaned_data)
         user_answers = []
         form_keys = tuple(form.cleaned_data.keys())
         for answer_number in range(len(form_keys)):
             if form.cleaned_data.get(form_keys[answer_number]):
                 user_answers.append(answers[answer_number].name)
-        print('user-answers -------', user_answers)
-        user_answers.sort()
-        right_answers = []
-        for q in answers:
-            if q.is_right:
-                right_answers.append(q.name)
-        right_answers.sort()
-        print('user ---', user_answers)
-        print('right ===', right_answers)
-        if user_answers == right_answers:
-            user_questions = user_obj.current_test
-            user_questions['history']['right_answers'] += 1
-            user_questions['history']['question'] = {}
-            user_obj.current_test = user_questions
-            user_obj.save()
-            return {'message': 'Ответ верный'}
+        if user_answers:
+            user_answers.sort()
+            right_answers = []
+            for q in answers:
+                if q.is_right:
+                    right_answers.append(q.name)
+            right_answers.sort()
+            if user_answers == right_answers:
+                user_questions = user_obj.current_test
+                user_questions['history']['right_answers'] += 1
+                user_questions['history']['question'] = {}
+                user_obj.current_test = user_questions
+                user_obj.save()
+                return {'message': 'Ответ верный'}
+            else:
+                user_questions = user_obj.current_test
+                user_questions['history']['wrong_answers'] += 1
+                user_questions['history']['question'] = {}
+                user_obj.current_test = user_questions
+                user_obj.save()
+                return {'message': 'Ответ неверный'}
         else:
-            user_questions = user_obj.current_test
-            user_questions['history']['wrong_answers'] += 1
-            user_questions['history']['question'] = {}
-            user_obj.current_test = user_questions
-            user_obj.save()
-            return {'message': 'Ответ неверный'}
+            return {'message': 'Хотя бы один ответ должен быть помечен'}
 
 
 def ask_question(user_obj) -> dict or None:
